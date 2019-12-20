@@ -1,5 +1,24 @@
 import React, { Component } from 'react';
 
+class StudentInterface extends React.Component {
+
+  render() {
+    return (
+      <div className="container">
+        {/* Introductory text */}
+        <Introduction></Introduction>
+
+
+        {/* Form */}
+        <MyForm></MyForm>
+
+
+        {/* Table */}
+      </div>
+    )
+  }
+}
+
 class Introduction extends React.Component {
 
   render() {
@@ -146,17 +165,7 @@ function App() {
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" />
       </header>
       <main>
-        <div className="container">
-          {/* Introductory text */}
-          <Introduction></Introduction>
-
-
-          {/* Form */}
-          <MyForm></MyForm>
-
-
-          {/* Table */}
-        </div>
+        <StudentInterface></StudentInterface>
       </main>
     </div>
   );
