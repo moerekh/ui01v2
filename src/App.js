@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
+import React from 'react';
+import class_catalog from './class_catalog.js';
 
 class StudentInterface extends React.Component {
-
   render() {
     return (
       <div className="container">
@@ -35,9 +35,6 @@ class Introduction extends React.Component {
 }
 
 class TextInput extends React.Component {
-  constructor(props){
-    super(props);
-  }
   render() {
     return(
       <div className="row">
@@ -54,14 +51,19 @@ class TextInput extends React.Component {
 
 class SelectInput extends React.Component {
   render() {
+    const options = class_catalog.map((subject) => (
+      <option value={subject.name}>{subject.name}</option>
+    ))
+
     return(
       <div className="row">
         <div className="col">
           <div className="form-group">
             <label>
-              {this.props.fieldLabel}
-              <select name="{this.props.fieldName}" className="form-control">
+              {this.props.label}
+              <select name="{this.props.name}" className="form-control">
                 <option selected disabled value="">Make a selection</option>
+                {options}
               </select>
             </label>
           </div>
@@ -72,9 +74,6 @@ class SelectInput extends React.Component {
 }
 
 class UsernameInput extends TextInput {
-  constructor(props){
-    super(props);
-  }
   render() {
     return(
     <TextInput fieldName="username" fieldLabel="Username"></TextInput>
@@ -83,9 +82,6 @@ class UsernameInput extends TextInput {
 }
 
 class EmailInput extends React.Component {
-  constructor(props){
-    super(props);
-  }
   render() {
     return(
     <TextInput fieldName="email" fieldLabel="Email"></TextInput>
@@ -93,43 +89,7 @@ class EmailInput extends React.Component {
   }
 }
 
-class SubjectSelect extends SelectInput {
-  constructor(props) {
-    super(props);
-  }
-  render() {
-    return(
-      <SelectInput fieldName="subject" fieldLabel="Subject"></SelectInput>
-    );
-  }
-}
-
-class TopicSelect extends SelectInput {
-  constructor(props) {
-    super(props);
-  }
-  render() {
-    return(
-      <SelectInput fieldName="topic" fieldLabel="Topic"></SelectInput>
-    );
-  }
-}
-
-class TimeSelect extends SelectInput {
-  constructor(props) {
-    super(props);
-  }
-  render() {
-    return(
-      <SelectInput fieldName="time" fieldLabel="Time"></SelectInput>
-    );
-  }
-}
-
 class AddClass extends React.Component {
-  constructor(props) {
-    super(props);
-  }
   render() {
     return(
       <button className="btn btn-primary">Add Class</button>
@@ -139,18 +99,17 @@ class AddClass extends React.Component {
 
 
 class MyForm extends React.Component {
-  constructor(props) {
-    super(props);
-  }
   render() {
     return(
       <div className="container">
         <form>
           <UsernameInput></UsernameInput>
           <EmailInput></EmailInput>
-          <SubjectSelect></SubjectSelect>
-          <TopicSelect></TopicSelect>
-          <TimeSelect></TimeSelect>
+          <SelectInput 
+            name="subject" 
+            label="Subject:"
+          >
+          </SelectInput>
           <AddClass></AddClass>
         </form>
       </div>
