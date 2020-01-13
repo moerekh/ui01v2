@@ -14,6 +14,7 @@ class StudentInterface extends React.Component {
 
     this.setSubjectOption = this.setSubjectOption.bind(this)
     this.setTopicOption = this.setTopicOption.bind(this)
+    this.setTimeOption = this.setTimeOption.bind(this)
   }
 
   setSubjectOption = (event) => {
@@ -25,14 +26,20 @@ class StudentInterface extends React.Component {
   }
 
   setTopicOption = (event) => {
-    this.setState({topic: event.target.value})
+    this.setState({
+      topic: event.target.value,
+      time: this.default_value
+    })
   }
 
-  
+  setTimeOption = (event) => {
+    this.setState({time: event.target.value})
+  }
 
   render() {
 
     let topicOptions;
+    let timeOptions;
     const subjectOptions = class_catalog.map((subject) => (
       <OptionComponent 
         key={subject.name}
@@ -42,21 +49,36 @@ class StudentInterface extends React.Component {
     ))
 
     if (this.state.subject) {
-        for(let subject in class_catalog) {
-          let s = class_catalog[subject];
-         
-          if (s.name === this.state.subject) {
-            let topics = s.topics;
-            topicOptions = topics.map(topic => (
-              <OptionComponent 
-                key={topic.name}
-                value={topic.name}
-                label={topic.name}
-              ></OptionComponent>
-            ))
+      for(let subject in class_catalog) {
+        let s = class_catalog[subject];
+        
+        if (s.name === this.state.subject) {
+          let topics = s.topics;
+          topicOptions = topics.map(topic => (
+            <OptionComponent 
+              key={topic.name}
+              value={topic.name}
+              label={topic.name}
+            ></OptionComponent>
+          ))
+
+          if (this.state.topic) {
+            for (let topic in topics) {
+              let t = topics[topic];
+
+              if (t.name === this.state.topic) {
+                timeOptions = t.times.map((p) => (
+                  <OptionComponent 
+                    key={p}
+                    value={p}
+                    label={p}
+                  ></OptionComponent>
+                ))
+              }
+            }
           }
-          
         }
+      }
     }
 
     return (
@@ -71,45 +93,29 @@ class StudentInterface extends React.Component {
             <TextInput fieldName="username" fieldLabel="Username"></TextInput>
             <TextInput fieldName="email" fieldLabel="Email"></TextInput>
 
-            <div className="row">
-              <div className="col">
-                <div className="form-group">
-                  <label>
-                    Subject:
-                    <select 
-                      className="form-control"
-                      value={this.state.subject}
-                      name="subject" 
-                      label="Subject:"
-                      onChange={this.setSubjectOption}
-                    >
-                      <option placeholder="Make a selection">Make a selection</option>
-                      {subjectOptions}
-                    </select>
-                  </label>
-                </div>
-              </div>
-            </div>
+            <SelectSection
+              label="Subject:"
+              name="subject"
+              onChange={this.setSubjectOption}
+            >
+              {subjectOptions}
+            </SelectSection>
             
-            <div className="row">
-              <div className="col">
-                <div className="form-group">
-                  <label>
-                    Topic:
-                    <select 
-                      className="form-control"
-                      value={this.state.topic}
-                      name="topic" 
-                      label="Topic:"
-                      onChange={this.setTopicOption}
-                    >
-                      <option placeholder="Make a selection">Make a selection</option>
-                      {topicOptions}
-                    </select>
-                  </label>
-                </div>
-              </div>
-            </div>
+            <SelectSection
+              label="Topic:"
+              name="topic"
+              onChange={this.setTopicOption}
+            >
+              {topicOptions}
+            </SelectSection>
+
+            <SelectSection
+              label="Time:"
+              name="time"
+              onChange={this.setTimeOption}
+            >
+              {timeOptions}
+            </SelectSection>
 
             <AddClass></AddClass>
           </form>
@@ -149,6 +155,31 @@ class TextInput extends React.Component {
         </div>
       </div>
     );
+  }
+}
+
+class SelectSection extends React.Component {
+  render() {
+    return(
+      <div className="row">
+        <div className="col">
+          <div className="form-group">
+            <label>
+              {this.props.label}
+              <select 
+                className="form-control"
+                name={this.props.name}
+                label={this.props.label}
+                onChange={this.props.onChange}
+              >
+                <option placeholder="Make a selection">Make a selection</option>
+                {this.props.children}
+              </select>
+            </label>
+          </div>
+        </div>
+      </div>
+    )
   }
 }
 
