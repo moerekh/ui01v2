@@ -6,41 +6,97 @@ class StudentInterface extends React.Component {
     let default_value = false;
 
     super(props)
+
     this.state = {
       subject: default_value,
       topic: default_value,
-      time: default_value
+      time: default_value,
+      time_value: default_value,
+      schedule: []
     }
 
     this.setSubjectOption = this.setSubjectOption.bind(this)
     this.setTopicOption = this.setTopicOption.bind(this)
     this.setTimeOption = this.setTimeOption.bind(this)
+    this.addClassButton = this.addClassButton.bind(this)
   }
 
   setSubjectOption = (event) => {
     this.setState({
       subject: event.target.value,
       topic: this.default_value,
-      time: this.default_value
+      time: this.default_value,
+      time_value: this.default_value
     })
   }
 
   setTopicOption = (event) => {
     this.setState({
       topic: event.target.value,
-      time: this.default_value
+      time: this.default_value,
+      time_value: this.default_value
     })
   }
 
   setTimeOption = (event) => {
-    this.setState({time: event.target.value})
+    /** regex should reflect the following:
+     * matched_time[0] === "HH:MM AM/PM"
+     * matched_time[1] === "HH"
+     * matched_time[2] === "MM"
+     * matched_time[3] === "AM/PM"
+    */
+    let time_regex   = new RegExp(/(\d+)\D(\d+)\s(\w+)/),
+        matched_time = event.target.value.match(time_regex),
+        new_time     = parseInt(matched_time[1]);
+    
+    if (matched_time[1] === 12 && matched_time[3] === "AM") {
+      matched_time[1] = 0;
+    }
+    
+    if (matched_time[1] < 12 &&
+        matched_time[3] === 'PM') {
+          new_time = new_time + 12;
+    }
+
+    this.setState({
+      time: event.target.value,
+      time_value: new_time
+    })
+      
+  }
+
+  addClassButton = (event) => {
+    event.preventDefault();
+
+    if (!this.state.subject ||
+        !this.state.topic ||
+        !this.state.time) {
+          return false;
+    }
+
+    let new_schedule = this.state.schedule.slice();
+    new_schedule.push({
+      subject: this.state.subject,
+      topic: this.state.topic,
+      time: this.state.time,
+      time_value: this.state.time_value
+    })
+    this.setState({
+      schedule: new_schedule,
+      subject: this.default_value,
+      topic: this.default_value,
+      time: this.default_value,
+      time_value: this.default_value
+    });
   }
 
   render() {
 
     let topicOptions;
     let timeOptions;
-    const subjectOptions = class_catalog.map((subject) => (
+    let subjectOptions;
+
+    subjectOptions = class_catalog.map((subject) => (
       <OptionComponent 
         key={subject.name}
         value={subject.name}
@@ -117,7 +173,13 @@ class StudentInterface extends React.Component {
               {timeOptions}
             </SelectSection>
 
-            <AddClass></AddClass>
+            {/* <AddClass></AddClass> */}
+            <button 
+              className="btn btn-primary"
+              onClick={this.addClassButton}
+            >
+              Add Class
+            </button>
           </form>
         </div>
 
