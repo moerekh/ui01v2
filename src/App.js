@@ -173,7 +173,6 @@ class StudentInterface extends React.Component {
               {timeOptions}
             </SelectSection>
 
-            {/* <AddClass></AddClass> */}
             <button 
               className="btn btn-primary"
               onClick={this.addClassButton}
@@ -183,8 +182,12 @@ class StudentInterface extends React.Component {
           </form>
         </div>
 
+        <hr/>
 
         {/* Table */}
+        <DisplayClassSchedule
+          schedule = {this.state.schedule}
+        ></DisplayClassSchedule>
       </div>
     )
   }
@@ -197,7 +200,7 @@ class Introduction extends React.Component {
         <div className="container">
           <div className="row">
             <div className="col">
-              <h1>Simon Younesi's Programming Challenge</h1>
+              <h1>ReactJS App:  Class Schedule Maker</h1>
             </div>
           </div>
         </div>
@@ -253,11 +256,66 @@ class OptionComponent extends React.Component {
   }
 }
 
-class AddClass extends React.Component {
+class DisplayClassSchedule extends React.Component {
+
   render() {
     return(
-      <button className="btn btn-primary">Add Class</button>
-    );
+      <table className="table">
+        <thead>
+          <tr>
+            <th>Subject</th>
+            <th>Topic</th>
+            <th>Time</th>
+          </tr>
+        </thead>
+        <tbody>
+          <GetSchedule
+            schedule={this.props.schedule}
+          ></GetSchedule>
+        </tbody>
+      </table>
+    )
+  }
+}
+
+class GetSchedule extends React.Component {
+  render() {
+    if (this.props.schedule.length === 0) {
+      return <ReceivedNoSchedule></ReceivedNoSchedule>;
+    }
+
+    if (this.props.schedule.length > 0) {
+      return <PrintSchedule
+          schedule={this.props.schedule}
+      ></PrintSchedule>;
+    }
+  }
+}
+
+class PrintSchedule extends React.Component {
+  render() {
+    let classes = this.props.schedule.sort((a, b) => (a['time_value'] > b['time_value'])? 1 : -1);
+
+    let printSchedule = classes.map((course) => (
+      <tr key={course.topic + course.value}>
+          <td>{course.subject}</td>
+          <td>{course.topic}</td>
+          <td>{course.time}</td>
+        </tr>
+    ))
+    return (
+      <>
+        {printSchedule}
+      </>
+    )
+  }
+}
+
+class ReceivedNoSchedule extends React.Component {
+  render() {
+    return(
+      <tr><td colSpan="3">No class schedule available</td></tr>
+    )
   }
 }
 
