@@ -1,3 +1,7 @@
+# ui01v2
+
+This project was a prompt for a single page JS app. A class schedule creation tool that uses a catalog of courses to generate dynamic selection fields that then outputs a table organized by the value of the time the course takes place.
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
@@ -66,4 +70,3 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/de
 ### `npm run build` fails to minify
 
 This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
-# ui01v2
