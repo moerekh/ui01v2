@@ -8,6 +8,8 @@ class StudentInterface extends React.Component {
     super(props)
 
     this.state = {
+      username: default_value,
+      email: default_value,
       subject: default_value,
       topic: default_value,
       time: default_value,
@@ -15,10 +17,24 @@ class StudentInterface extends React.Component {
       schedule: []
     }
 
+    this.setUserName = this.setUserName.bind(this)
+    this.setUserEmail = this.setUserEmail.bind(this)
     this.setSubjectOption = this.setSubjectOption.bind(this)
     this.setTopicOption = this.setTopicOption.bind(this)
     this.setTimeOption = this.setTimeOption.bind(this)
     this.addClassButton = this.addClassButton.bind(this)
+  }
+
+  setUserName = (event) => {
+    this.setState({
+      username: event.target.value
+    })
+  }
+
+  setUserEmail = (event) => {
+    this.setState({
+      email: event.target.value
+    })
   }
 
   setSubjectOption = (event) => {
@@ -146,8 +162,17 @@ class StudentInterface extends React.Component {
         {/* Form */}
         <div className="container">
           <form>
-            <TextInput fieldName="username" fieldLabel="Username"></TextInput>
-            <TextInput fieldName="email" fieldLabel="Email"></TextInput>
+            <TextInput 
+              fieldName="username" 
+              fieldLabel="Username"
+              onChange={this.setUserName}
+            ></TextInput>
+
+            <TextInput 
+              fieldName="email" 
+              fieldLabel="Email"
+              onChange={this.setUserEmail}  
+            ></TextInput>
 
             <SelectSection
               label="Subject:"
@@ -187,6 +212,8 @@ class StudentInterface extends React.Component {
         {/* Table */}
         <DisplayClassSchedule
           schedule = {this.state.schedule}
+          username = {this.state.username}
+          email = {this.state.email}
         ></DisplayClassSchedule>
       </div>
     )
@@ -215,7 +242,12 @@ class TextInput extends React.Component {
         <div className="col">
           <div className="form-group">
             <label>{this.props.fieldLabel}:</label>
-            <input className="form-control" type="text" name="{this.props.fieldName}"></input>
+            <input 
+              className="form-control" 
+              type="text" 
+              name={this.props.fieldName}
+              onChange={this.props.onChange}
+            ></input>
           </div>
         </div>
       </div>
@@ -260,20 +292,37 @@ class DisplayClassSchedule extends React.Component {
 
   render() {
     return(
-      <table className="table">
-        <thead>
-          <tr>
-            <th>Subject</th>
-            <th>Topic</th>
-            <th>Time</th>
-          </tr>
-        </thead>
-        <tbody>
-          <GetSchedule
-            schedule={this.props.schedule}
-          ></GetSchedule>
-        </tbody>
-      </table>
+      <div className="table_info">
+        <div className="row">
+            <div className="col">
+            <div className="username">
+            <p>Username:  {this.props.username}</p>
+          </div>
+          <div className="email">
+            <p>Email:  {this.props.email}</p>
+          </div>
+          </div>
+        </div>
+        <div className="row">
+          <div className="col">
+            <table className="table">
+              <thead>
+                <tr>
+                  <th>Subject</th>
+                  <th>Topic</th>
+                  <th>Time</th>
+                </tr>
+              </thead>
+              <tbody>
+                <GetSchedule
+                  schedule={this.props.schedule}
+                ></GetSchedule>
+              </tbody>
+            </table>
+          </div>
+          </div>
+        </div>
+        
     )
   }
 }
