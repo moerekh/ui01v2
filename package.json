@@ -2,6 +2,7 @@
   "name": "ui01v2",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://simonyounesi.com/staging/urban_insights_01/v2/",
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.4.0",
