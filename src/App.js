@@ -162,48 +162,60 @@ class StudentInterface extends React.Component {
         {/* Form */}
         <div className="container">
           <form>
-            <TextInput 
-              fieldName="username" 
-              fieldLabel="Username"
-              onChange={this.setUserName}
-            ></TextInput>
 
-            <TextInput 
-              fieldName="email" 
-              fieldLabel="Email"
-              onChange={this.setUserEmail}  
-            ></TextInput>
+          <div className="row">
+            <div className="col">
+              <TextInput 
+                fieldName="username" 
+                fieldLabel="Username"
+                onChange={this.setUserName}
+              ></TextInput>
 
-            <SelectSection
-              label="Subject:"
-              name="subject"
-              onChange={this.setSubjectOption}
-            >
-              {subjectOptions}
-            </SelectSection>
+              <TextInput 
+                fieldName="email" 
+                fieldLabel="Email"
+                onChange={this.setUserEmail}  
+              ></TextInput>
+            </div>
+
+            <div className="col">
+              <SelectSection
+                label="Subject:"
+                name="subject"
+                onChange={this.setSubjectOption}
+              >
+                {subjectOptions}
+              </SelectSection>
+              
+              <SelectSection
+                label="Topic:"
+                name="topic"
+                onChange={this.setTopicOption}
+              >
+                {topicOptions}
+              </SelectSection>
+
+              <SelectSection
+                label="Time:"
+                name="time"
+                onChange={this.setTimeOption}
+              >
+                {timeOptions}
+              </SelectSection>
+            </div>
+          </div>            
+
+          <div className="row">
+            <div className="col">
+              <button 
+                className="btn btn-primary"
+                onClick={this.addClassButton}
+              >
+                Add Class
+              </button>
+            </div>
+          </div>
             
-            <SelectSection
-              label="Topic:"
-              name="topic"
-              onChange={this.setTopicOption}
-            >
-              {topicOptions}
-            </SelectSection>
-
-            <SelectSection
-              label="Time:"
-              name="time"
-              onChange={this.setTimeOption}
-            >
-              {timeOptions}
-            </SelectSection>
-
-            <button 
-              className="btn btn-primary"
-              onClick={this.addClassButton}
-            >
-              Add Class
-            </button>
           </form>
         </div>
 
